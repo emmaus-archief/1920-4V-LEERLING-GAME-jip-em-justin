@@ -17,6 +17,14 @@
 /* globale variabelen die je gebruikt in je game */
 /* ********************************************* */
 
+
+
+let img;
+function preload() { 
+    img = loadImage('./gamebackground.jpg');
+}
+
+
 const UITLEG = 0;
 const SPELEN = 1;
 const GAMEOVER = 2;
@@ -46,7 +54,6 @@ var score = 0; // aantal behaalde punten
  * Tekent het speelveld
  */
 var tekenVeld = function () {
-  fill("purple");
   rect(20, 20, width - 2 * 20, height - 2 * 20);
 };
 
@@ -151,6 +158,9 @@ function setup() {
 
   // Kleur de achtergrond blauw, zodat je het kunt zien
   background('blue');
+  
+  // plaats gamebackground 
+  image(img, 0, 0);
 }
 
 
