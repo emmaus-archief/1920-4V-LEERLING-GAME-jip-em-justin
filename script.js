@@ -17,6 +17,19 @@
 /* globale variabelen die je gebruikt in je game */
 /* ********************************************* */
 
+
+
+let img;
+function preload() { 
+    img = loadImage("gamebackground.jpg");
+}
+
+function setup() { 
+    image(img, 0, 0);
+}
+
+
+
 const UITLEG = 0;
 const SPELEN = 1;
 const GAMEOVER = 2;
