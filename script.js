@@ -53,9 +53,7 @@ var score = 0; // aantal behaalde punten
 /**
  * Tekent het speelveld
  */
-var tekenVeld = function () {
-  rect(20, 20, width - 2 * 20, height - 2 * 20);
-};
+
 
 
 /**
@@ -160,8 +158,9 @@ function setup() {
   background('blue');
   
   // plaats gamebackground 
-  image(img, 0, 0);
+  image(img, 0, 0, width, height);
 }
+
 
 
 /**
