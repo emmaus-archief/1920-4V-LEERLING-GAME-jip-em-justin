@@ -20,9 +20,16 @@
 
 
 
+<<<<<<< HEAD
 
  
 document.body.style.backgroundImage = "url('space-background.jpg')";
+=======
+let img;
+function preload() { 
+    img = loadImage('./gamebackground.jpg');
+}
+>>>>>>> a7449a3277fbfeaca59852ecf22e112ea0be6064
 
 
 const UITLEG = 0;
