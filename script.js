@@ -19,6 +19,7 @@
 
 
 
+
 let img;
 function preload() { 
     img = loadImage('./gamebackground.jpg');
