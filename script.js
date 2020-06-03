@@ -23,7 +23,7 @@
 
  
 document.body.style.backgroundImage = "url('space-background.jpg')";
-object.style.backgroundsize='auto'
+
 
 const UITLEG = 0;
 const SPELEN = 1;
