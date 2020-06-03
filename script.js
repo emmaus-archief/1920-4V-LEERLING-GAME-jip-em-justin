@@ -18,18 +18,10 @@
 /* ********************************************* */
 
 
-
-
-<<<<<<< HEAD
-
- 
-document.body.style.backgroundImage = "url('space-background.jpg')";
-=======
 let img;
-function preload() { 
-    img = loadImage('./gamebackground.jpg');
+function preload() {
+    img = loadImage('./space-background.jpg');
 }
->>>>>>> a7449a3277fbfeaca59852ecf22e112ea0be6064
 
 
 const UITLEG = 0;
@@ -37,8 +29,10 @@ const SPELEN = 1;
 const GAMEOVER = 2;
 var spelStatus = SPELEN;
 
-var spelerX = 200; // x-positie van speler
-var spelerY = 100; // y-positie van speler
+var spelerX = 600; // x-positie van speler
+var spelerY = 750; // y-positie van speler
+
+const spelerSnelheid = 5;
 
 var kogelX = 0;    // x-positie van kogel
 var kogelY = 0;    // y-positie van kogel
@@ -48,7 +42,13 @@ var vijandY = 0;   // y-positie van vijand
 
 var score = 0; // aantal behaalde punten
 
+var balletjes = []; // nested array van vijand balletjes (zie uitleg hieronder)
+// een nested array is een array in een array. De x positie van het balletje
+// staat in de eerste waarde van de array, de y positie in de tweede waarde.
+// Als je bijvoorbeeld 2 balletjes wilt, eentje met x = 10 en y = 20 en de andere
+// met x = 50 en y = 100, krijg je dit: [ [10,20], [50,100] ]
 
+var balletjesInterval = 600; // het aantal milliseconden tussen de balletjes in
 
 
 
@@ -57,97 +57,46 @@ var score = 0; // aantal behaalde punten
 /* ********************************************* */
 
 
-/**
- * Tekent het speelveld
- */
+// VELD
 
+var tekenVeld = function() {
+ // plaats gamebackground
+ image(img, 0, 0, 1200, 800);
+}
 
+// SPELER
 
-/**
- * Tekent de vijand
- * @param {number} x x-coördinaat
- * @param {number} y y-coördinaat
- */
-var tekenVijand = function(x, y) {
-    
-
-};
-
-
-/**
- * Tekent de kogel of de bal
- * @param {number} x x-coördinaat
- * @param {number} y y-coördinaat
- */
-var tekenKogel = function(x, y) {
-
-
-};
-
-
-/**
- * Tekent de speler
- * @param {number} x x-coördinaat
- * @param {number} y y-coördinaat
- */
 var tekenSpeler = function(x, y) {
-  fill("white");
-  ellipse(x, y, 50, 50);
+ fill("green");
+ ellipse(x, y, 50, 50);
 };
 
-
-/**
- * Updatet globale variabelen met positie van vijand of tegenspeler
- */
-var beweegVijand = function() {
-    
-};
-
-
-/**
- * Updatet globale variabelen met positie van kogel of bal
- */
-var beweegKogel = function() {
-
-};
-
-
-/**
- * Kijkt wat de toetsen/muis etc zijn.
- * Updatet globale variabele spelerX en spelerY
- */
 var beweegSpeler = function() {
+  if(keyIsDown(UP_ARROW)) {
+    spelerY -= spelerSnelheid;
+  }
+  if(keyIsDown(DOWN_ARROW)) {
+    spelerY += spelerSnelheid;
+  }
+};
 
+// BALLETJES
+
+var nieuwBalletje = function() {
+  var balletjeY = random(100, 670); // bepaal een willekeurige Y positie voor het balletje
+  balletjes.push([-20, balletjeY]); // voeg het balletje toe aan de array, de X begint bij -20 (het balletje begint links van het scherm)
+  setTimeout(nieuwBalletje, balletjesInterval); // voer deze functie na een bepaald aantal miliseconden nog een keer uit om weer een nieuw balletje toe te voegen
+};
+var tekenBalletje = function(x, y) {
+  fill("red");
+  ellipse(x, y, 20, 20); // teken het balletje
+};
+var beweegBalletje = function(index) {
+  balletjes[index][0] += 5; // op basis van de index die deze functie heeft gekregen tel je een getal bij de X positie op zodat het balletje naar rechts beweegt
 };
 
 
-/**
- * Zoekt uit of de vijand is geraakt
- * @returns {boolean} true als vijand is geraakt
- */
-var checkVijandGeraakt = function() {
-
-  return false;
-};
-
-
-/**
- * Zoekt uit of de speler is geraakt
- * bijvoorbeeld door botsing met vijand
- * @returns {boolean} true als speler is geraakt
- */
-var checkSpelerGeraakt = function() {
-    
-  return false;
-};
-
-
-/**
- * Zoekt uit of het spel is afgelopen
- * @returns {boolean} true als het spel is afgelopen
- */
-var checkGameOver = function() {
-    
+var checkSpelerGeraakt = function(balletjeX, balletjeY) {
   return false;
 };
 
@@ -159,13 +108,12 @@ var checkGameOver = function() {
  */
 function setup() {
   // Maak een canvas (rechthoek) waarin je je speelveld kunt tekenen
-  createCanvas(1280, 720);
+  createCanvas(1200, 800);
 
   // Kleur de achtergrond blauw, zodat je het kunt zien
-  background('blue');
-  
-  // plaats gamebackground 
-  image(img, 0, 0, width, height);
+  background('black');
+
+  nieuwBalletje(); // voeg het eerste balletje toe aan het scherm
 }
 
 
@@ -178,28 +126,35 @@ function setup() {
 function draw() {
   switch (spelStatus) {
     case SPELEN:
-      beweegVijand();
-      beweegKogel();
-      beweegSpeler();
-      
-      if (checkVijandGeraakt()) {
-        // punten erbij
-        // nieuwe vijand maken
-      }
-      
-      if (checkSpelerGeraakt()) {
-        // leven eraf of gezondheid verlagen
-        // eventueel: nieuwe speler maken
-      }
-
       tekenVeld();
-      tekenVijand(vijandX, vijandY);
-      tekenKogel(kogelX, kogelY);
       tekenSpeler(spelerX, spelerY);
+      beweegSpeler();
 
-      if (checkGameOver()) {
-        spelStatus = GAMEOVER;
+      // dit hierna gaat allemaal over de balletjes
+      var teVerwijderen;
+      balletjes.forEach(function(balletjeArray, index) { // ga door de lijst van balletjes heen
+        // belangrijk om te weten: de index is de plaats in de array
+        var balletjeX = balletjeArray[0]; // de x positie is de eerste waarde van de array
+        var balletjeY = balletjeArray[1]; // de y positie is de tweede waarde van de array
+        tekenBalletje(balletjeX, balletjeY); // teken het balletje
+        beweegBalletje(index); // beweeg het balletje, geef de x positie door om die te kunnen veranderen
+        if(balletjeX > 1250) { // als het balletje uit het veld is
+          teVerwijderen = index;
+        }
+        if(checkSpelerGeraakt(balletjeX, balletjeY)) { // check of de speler geraakt is op basis van de positie van het balletje
+          spelStatus = GAMEOVER; // als de speler geraakt is verandert de spelstatus naar game over
+        }
+      });
+      if(teVerwijderen) { // als teVerwijderen een waarde heeft gekregen dan moet er een balletje weggehaald worden
+        balletjes.splice(teVerwijderen, 1); // verwijder het balletje uit de array (om geheugen te besparen)
       }
+
       break;
+    case GAMEOVER:
+      fill("white");
+      textSize(50);
+      text("Game over!", 300, 200);
+      textSize(30);
+      text("je bent dood", 300, 400);
   }
 }
