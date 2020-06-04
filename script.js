@@ -59,7 +59,7 @@ var tekenVeld = function() {
 var tekenSpeler = function(x, y) {
  fill(0, 255, 0); // kleur is groen
  ellipse(x, y, spelerDiameter, spelerDiameter); // dit is de plek van de speler
-};
+}
 
 var beweegSpeler = function() {
   if(keyIsDown(UP_ARROW) && spelerY > spelerDiameter / 2) { // als je op het pijltje omhoog drukt
@@ -68,22 +68,22 @@ var beweegSpeler = function() {
   if(keyIsDown(DOWN_ARROW) && spelerY < 800 - spelerDiameter / 2) { // als je op het pijltje naar beneden drukt
     spelerY += spelerSnelheid;
   }
-};
+}
 
 // BALLETJES
 
 var nieuwBalletje = function() {
-  var balletjeY = random(100, 670); // bepaal een willekeurige Y positie voor het balletje
+  var balletjeY = random(30, 770); // bepaal een willekeurige Y positie voor het balletje
   balletjes.push([-20, balletjeY]); // voeg het balletje toe aan de array, de X begint bij -20 (het balletje begint links van het scherm)
   setTimeout(nieuwBalletje, balletjesInterval); // voer deze functie na een bepaald aantal miliseconden nog een keer uit om weer een nieuw balletje toe te voegen
-};
+}
 var tekenBalletje = function(x, y) {
   fill(255, 0, 0); // kleur is rood
   ellipse(x, y, balletjeDiameter, balletjeDiameter); // teken het balletje
-};
+}
 var beweegBalletje = function(index) {
   balletjes[index][0] += balletjesSnelheid; // op basis van de index die deze functie heeft gekregen tel je een getal bij de X positie op zodat het balletje naar rechts beweegt
-};
+}
 
 
 var checkSpelerGeraakt = function(balletjeX, balletjeY) {
@@ -92,7 +92,26 @@ var checkSpelerGeraakt = function(balletjeX, balletjeY) {
   } else {
     return false;
   }
-};
+}
+
+var resetSpel = function() {
+  spelerX = 600; // reset de x positie van de speler
+  spelerY = 750; // reset de y positie van de speler
+  balletjes = []; // maakt de array van de balletjes weer leeg, zodat er geen balletjes in het scherm staan als je het spel opnieuw speelt
+  balletjesInterval = 600; // reset het begin interval van de balletjes
+  balletjesSnelheid = 3; // reset de beginsnelheid van de balletjes
+}
+
+var opnieuwSpelen = function() {
+  fill(255, 255, 255);  
+  rect(0, 0, 300, 200);
+  fill(0, 0, 0);
+  text("Opnieuw Spelen", 20, 80);  
+  if(mouseX > 0 && mouseX < 300 && mouseY > 0 && mouseY < 200 && mouseIsPressed) { // als je op opnieuw spelen klikt
+    spelStatus = SPELEN;
+  }
+  resetSpel();
+}
 
 var achtergrondPlaatje = 0;
 function preload() {
@@ -149,11 +168,16 @@ function draw() {
 
       break;
     case GAMEOVER:
-      fill("white");
+      background(255, 255, 255);  
+      fill(0, 0, 0); // kleur is zwart
       textSize(50);
-      text("Game over!", 300, 200);
+      text("Game over!", 400, 200);
       textSize(30);
-      text("je bent dood", 300, 400);
+      text("je bent dood", 400, 400);
+
+      opnieuwSpelen();
+
+      break;
   }
 }
 
