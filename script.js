@@ -49,6 +49,7 @@ var balletjes = []; // nested array van vijand balletjes (zie uitleg hieronder)
 // met x = 50 en y = 100, krijg je dit: [ [10,20], [50,100] ]
 
 var balletjesInterval = 600; // het aantal milliseconden tussen de balletjes in
+var balletjesSnelheid = 3; // hoe snel de balletjes naar rechts gaan
 
 
 
@@ -92,7 +93,7 @@ var tekenBalletje = function(x, y) {
   ellipse(x, y, 20, 20); // teken het balletje
 };
 var beweegBalletje = function(index) {
-  balletjes[index][0] += 5; // op basis van de index die deze functie heeft gekregen tel je een getal bij de X positie op zodat het balletje naar rechts beweegt
+  balletjes[index][0] += balletjesSnelheid; // op basis van de index die deze functie heeft gekregen tel je een getal bij de X positie op zodat het balletje naar rechts beweegt
 };
 
 
@@ -160,11 +161,15 @@ function draw() {
 }
 
 setInterval(function() {
-    // laat de balletjes steeds sneller gaan
-    // dit stukje code wordt elke seconde uitgevoerd,
+    // dit stukje code wordt elke seconde uitgevoerd
+
     // dus elke seconde gaat er 50 af van de interval waarmee
     // de balletjes worden gespawnd. Er komen dus steeds meer balletjes totdat de interval 50 is
     if(balletjesInterval > 50) {
         balletjesInterval -= 25;
+    }
+    // laat de balletjes steeds sneller gaan, als de snelheid onder de 10 is tel je 0,2 bij de snelheid op
+    if(balletjesSnelheid < 10) {
+        balletjesSnelheid += 0.2;
     }
 }, 1000)
