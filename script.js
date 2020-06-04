@@ -33,12 +33,7 @@ var spelerX = 600; // x-positie van speler
 var spelerY = 750; // y-positie van speler
 
 const spelerSnelheid = 5;
-
-var kogelX = 0;    // x-positie van kogel
-var kogelY = 0;    // y-positie van kogel
-
-var vijandX = 0;   // x-positie van vijand
-var vijandY = 0;   // y-positie van vijand
+const spelerDiameter = 50;
 
 var score = 0; // aantal behaalde punten
 
@@ -50,6 +45,7 @@ var balletjes = []; // nested array van vijand balletjes (zie uitleg hieronder)
 
 var balletjesInterval = 600; // het aantal milliseconden tussen de balletjes in
 var balletjesSnelheid = 3; // hoe snel de balletjes naar rechts gaan
+const balletjeDiameter = 20;
 
 
 
@@ -69,7 +65,7 @@ var tekenVeld = function() {
 
 var tekenSpeler = function(x, y) {
  fill("green");
- ellipse(x, y, 50, 50);
+ ellipse(x, y, spelerDiameter, spelerDiameter);
 };
 
 var beweegSpeler = function() {
@@ -90,7 +86,7 @@ var nieuwBalletje = function() {
 };
 var tekenBalletje = function(x, y) {
   fill("red");
-  ellipse(x, y, 20, 20); // teken het balletje
+  ellipse(x, y, balletjeDiameter, balletjeDiameter); // teken het balletje
 };
 var beweegBalletje = function(index) {
   balletjes[index][0] += balletjesSnelheid; // op basis van de index die deze functie heeft gekregen tel je een getal bij de X positie op zodat het balletje naar rechts beweegt
@@ -98,7 +94,11 @@ var beweegBalletje = function(index) {
 
 
 var checkSpelerGeraakt = function(balletjeX, balletjeY) {
-  return false;
+  if(collideCircleCircle(spelerX, spelerY, spelerDiameter, balletjeX, balletjeY, balletjeDiameter)) { // check of de speler en het balletje elkaar raken
+    return true;
+  } else {
+    return false;
+  }
 };
 
 
