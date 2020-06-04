@@ -158,3 +158,13 @@ function draw() {
       text("je bent dood", 300, 400);
   }
 }
+
+setInterval(function() {
+    // laat de balletjes steeds sneller gaan
+    // dit stukje code wordt elke seconde uitgevoerd,
+    // dus elke seconde gaat er 50 af van de interval waarmee
+    // de balletjes worden gespawnd. Er komen dus steeds meer balletjes totdat de interval 50 is
+    if(balletjesInterval > 50) {
+        balletjesInterval -= 25;
+    }
+}, 1000)
