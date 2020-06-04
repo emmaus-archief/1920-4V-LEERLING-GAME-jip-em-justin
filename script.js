@@ -17,13 +17,6 @@
 /* globale variabelen die je gebruikt in je game */
 /* ********************************************* */
 
-
-let img;
-function preload() {
-    img = loadImage('./space-background.jpg');
-}
-
-
 const UITLEG = 0;
 const SPELEN = 1;
 const GAMEOVER = 2;
@@ -58,21 +51,21 @@ const balletjeDiameter = 20;
 
 var tekenVeld = function() {
  // plaats gamebackground
- image(img, 0, 0, 1200, 800);
+ image(achtergrondPlaatje, 0, 0, 1200, 800);
 }
 
 // SPELER
 
 var tekenSpeler = function(x, y) {
- fill("green");
- ellipse(x, y, spelerDiameter, spelerDiameter);
+ fill(0, 255, 0); // kleur is groen
+ ellipse(x, y, spelerDiameter, spelerDiameter); // dit is de plek van de speler
 };
 
 var beweegSpeler = function() {
-  if(keyIsDown(UP_ARROW)) {
+  if(keyIsDown(UP_ARROW) && spelerY > spelerDiameter / 2) { // als je op het pijltje omhoog drukt
     spelerY -= spelerSnelheid;
   }
-  if(keyIsDown(DOWN_ARROW)) {
+  if(keyIsDown(DOWN_ARROW) && spelerY < 800 - spelerDiameter / 2) { // als je op het pijltje naar beneden drukt
     spelerY += spelerSnelheid;
   }
 };
@@ -85,7 +78,7 @@ var nieuwBalletje = function() {
   setTimeout(nieuwBalletje, balletjesInterval); // voer deze functie na een bepaald aantal miliseconden nog een keer uit om weer een nieuw balletje toe te voegen
 };
 var tekenBalletje = function(x, y) {
-  fill("red");
+  fill(255, 0, 0); // kleur is rood
   ellipse(x, y, balletjeDiameter, balletjeDiameter); // teken het balletje
 };
 var beweegBalletje = function(index) {
@@ -101,6 +94,10 @@ var checkSpelerGeraakt = function(balletjeX, balletjeY) {
   }
 };
 
+var achtergrondPlaatje = 0;
+function preload() {
+  achtergrondPlaatje = loadImage('space-background.jpg');
+}
 
 /**
  * setup
